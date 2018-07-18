@@ -1,2 +1,2 @@
 # Illustrator-Scripts
-Automation scripts for Adobe Illustrator CC
+Useful scripts for automating processes in Adobe Illustrator CC
