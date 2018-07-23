@@ -1,6 +1,6 @@
 /**
  * This script sorts layers into alphabetical / reserve alphabetical order
- * Enter the exact name of the layer(s) who's sublayers you want sorted (case sensitive)
+ * Enter the exact name of the layer(s) who's sublayers you want sorted
  * WARNING: ALL layers that match the provided name will be sorted, not only the first one
  *
  * @author Alexander Lyon
@@ -20,6 +20,7 @@ else {
     dialog.layerRow.titleSt = dialog.layerRow.add('statictext', [0, 15, 100, 38], 'Enter layer name:');
     dialog.layerRow.titleEt = dialog.layerRow.add('edittext', [100, 15, 200, 38], "");
     dialog.layerRow.titleEt.onChanging = layerNameChanged;
+    dialog.layerRow.titleEt.active = true;
 
     // Sort options
     dialog.optionsRow = dialog.add('group', undefined);
@@ -78,7 +79,7 @@ function findLayers(currentLayer, savedList) {
   }
 
   for(var i=0; i<currentLayer.layers.length; i++) {
-    if (currentLayer.layers[i].name == layerToSort) {
+    if (currentLayer.layers[i].name.toLowerCase() == layerToSort.toLowerCase()) {
       savedList.push(currentLayer.layers[i]);
     }
     else {
@@ -98,17 +99,13 @@ function sort(currentLayer) {
     swapped = false;
     for (var i=0; i<currentLayer.layers.length - 1; i++) {
 
-      if (dialog.optionsRow.alpha.value == true) {
-        if ( currentLayer.layers[i].name.toLowerCase() > currentLayer.layers[i+1].name.toLowerCase() ) {
-          currentLayer.layers[i].move(currentLayer.layers[i+1], ElementPlacement.PLACEAFTER);
-          swapped = true;
-        }
+      if (dialog.optionsRow.alpha.value == true && (currentLayer.layers[i].name.toLowerCase() > currentLayer.layers[i+1].name.toLowerCase())) {
+        currentLayer.layers[i].move(currentLayer.layers[i+1], ElementPlacement.PLACEAFTER);
+        swapped = true;
       }
-      else if (dialog.optionsRow.revAlpha.value == true) {
-        if ( currentLayer.layers[i].name.toLowerCase() < currentLayer.layers[i+1].name.toLowerCase() ) {
-          currentLayer.layers[i].move(currentLayer.layers[i+1], ElementPlacement.PLACEAFTER);
-          swapped = true;
-        }
+      else if (dialog.optionsRow.revAlpha.value == true && (currentLayer.layers[i].name.toLowerCase() < currentLayer.layers[i+1].name.toLowerCase())) {
+        currentLayer.layers[i].move(currentLayer.layers[i+1], ElementPlacement.PLACEAFTER);
+        swapped = true;
       }
 
     }
