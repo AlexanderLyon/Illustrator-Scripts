@@ -7,7 +7,7 @@
  */
 
 if (app.documents.length === 0) {
-    alert("No Open / Active Document Found");
+  alert("No Open / Active Document Found");
 }
 else {
     var doc = app.activeDocument;
@@ -17,25 +17,25 @@ else {
     // Enter layer name
     dialog.layerRow = dialog.add('group', undefined);
     dialog.layerRow.orientation = 'row';
-    dialog.layerRow.titleSt = dialog.layerRow.add('statictext', [0, 15, 100, 38], 'Enter layer name:');
-    dialog.layerRow.titleEt = dialog.layerRow.add('edittext', [100, 15, 200, 38], "");
+    dialog.layerRow.titleSt = dialog.layerRow.add('statictext', [0, 15, 110, 38], 'Enter layer name:');
+    dialog.layerRow.titleEt = dialog.layerRow.add('edittext', [111, 15, 220, 38], "");
     dialog.layerRow.titleEt.onChanging = layerNameChanged;
     dialog.layerRow.titleEt.active = true;
 
     // Sort options
     dialog.optionsRow = dialog.add('group', undefined);
     dialog.optionsRow.orientation = 'row';
-    dialog.optionsRow.alpha = dialog.optionsRow.add('radiobutton', [15,15,70,35], 'A-Z' );
-    dialog.optionsRow.revAlpha = dialog.optionsRow.add('radiobutton', [15,15,70,35], 'Z-A' );
+    dialog.optionsRow.alpha = dialog.optionsRow.add('radiobutton', [15,15,80,35], 'A-Z' );
+    dialog.optionsRow.revAlpha = dialog.optionsRow.add('radiobutton', [81,15,126,35], 'Z-A' );
     dialog.optionsRow.alpha.value = true;
 
     // Buttons
     dialog.buttonPanel = dialog.add('group', undefined);
     dialog.buttonPanel.orientation = 'row';
-    dialog.buttonPanel.buildBtn1 = dialog.buttonPanel.add('button',[15, 15, 115, 35], 'Cancel', {name:'cancel'});
-    dialog.buttonPanel.buildBtn1.onClick= actionCanceled;
-    dialog.buttonPanel.buildBtn2 = dialog.buttonPanel.add('button', [125, 15, 225, 35], 'Sort', {name:'sort'});
-    dialog.buttonPanel.buildBtn2.onClick= run;
+    dialog.buttonPanel.cancelBtn = dialog.buttonPanel.add('button',[15, 15, 115, 35], 'Cancel', {name:'cancel'});
+    dialog.buttonPanel.cancelBtn.onClick = actionCanceled;
+    dialog.buttonPanel.sortBtn = dialog.buttonPanel.add('button', [125, 15, 225, 35], 'Sort', {name:'sort'});
+    dialog.buttonPanel.sortBtn.onClick = run;
 
     dialog.show();
 }
@@ -69,25 +69,25 @@ function layerNameChanged() {
 }
 
 
-function findLayers(currentLayer, savedList) {
+function findLayers(currentLayer, matches) {
   /* Searches document layers recursively for layerToSort */
   if (currentLayer == undefined) {
     currentLayer = doc;
   }
-  if (savedList == undefined) {
-    savedList = [];
+  if (matches == undefined) {
+    matches = [];
   }
 
   for(var i=0; i<currentLayer.layers.length; i++) {
     if (currentLayer.layers[i].name.toLowerCase() == layerToSort.toLowerCase()) {
-      savedList.push(currentLayer.layers[i]);
+      matches.push(currentLayer.layers[i]);
     }
     else {
-      findLayers(currentLayer.layers[i], savedList);
+      findLayers(currentLayer.layers[i], matches);
     }
   }
 
-  return savedList;
+  return matches;
 }
 
 
