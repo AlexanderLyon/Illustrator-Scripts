@@ -1,6 +1,6 @@
 /**
  * This script sorts layers into alphabetical / reserve alphabetical order
- * Enter the exact name of the layer(s) who's sublayers you want sorted
+ * Enter the exact name of the layer(s) who's sublayers you want sorted (case insensitive)
  * WARNING: ALL layers that match the provided name will be sorted, not only the first one
  *
  * @author Alexander Lyon
@@ -70,7 +70,7 @@ function layerNameChanged() {
 
 
 function findLayers(currentLayer, matches) {
-  /* Searches document layers recursively for layerToSort */
+  /* Recursively searches document layers for layerToSort */
   if (currentLayer == undefined) {
     currentLayer = doc;
   }
@@ -97,8 +97,8 @@ function sort(currentLayer) {
 
   do {
     swapped = false;
-    for (var i=0; i<currentLayer.layers.length - 1; i++) {
 
+    for (var i=0; i<currentLayer.layers.length - 1; i++) {
       if (dialog.optionsRow.alpha.value == true && (currentLayer.layers[i].name.toLowerCase() > currentLayer.layers[i+1].name.toLowerCase())) {
         currentLayer.layers[i].move(currentLayer.layers[i+1], ElementPlacement.PLACEAFTER);
         swapped = true;
@@ -107,7 +107,6 @@ function sort(currentLayer) {
         currentLayer.layers[i].move(currentLayer.layers[i+1], ElementPlacement.PLACEAFTER);
         swapped = true;
       }
-
     }
   } while (swapped);
 
