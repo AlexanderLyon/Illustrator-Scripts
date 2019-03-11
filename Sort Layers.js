@@ -99,6 +99,11 @@ function sort(currentLayer) {
     swapped = false;
 
     for (var i=0; i<currentLayer.layers.length - 1; i++) {
+      var wasHidden1 = currentLayer.layers[i].visible === false;
+      var wasHidden2 = currentLayer.layers[i+1].visible === false;
+      currentLayer.layers[i].visible = true;
+      currentLayer.layers[i+1].visible = true;
+
       if (dialog.optionsRow.alpha.value == true && (currentLayer.layers[i].name.toLowerCase() > currentLayer.layers[i+1].name.toLowerCase())) {
         currentLayer.layers[i].move(currentLayer.layers[i+1], ElementPlacement.PLACEAFTER);
         swapped = true;
@@ -106,6 +111,14 @@ function sort(currentLayer) {
       else if (dialog.optionsRow.revAlpha.value == true && (currentLayer.layers[i].name.toLowerCase() < currentLayer.layers[i+1].name.toLowerCase())) {
         currentLayer.layers[i].move(currentLayer.layers[i+1], ElementPlacement.PLACEAFTER);
         swapped = true;
+      }
+
+      // Hide these layers if they were hidden before
+      if (wasHidden1) {
+        currentLayer.layers[i].visible = false;
+      }
+      if (wasHidden2) {
+        currentLayer.layers[i+1].visible = false;
       }
     }
   } while (swapped);
